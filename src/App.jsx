@@ -580,7 +580,7 @@ const App = () => {
                     e.preventDefault();
                     setSending(true);
                     try {
-                      await fetch('https://formsubmit.co/ajax/jintae.3cpures@gmail.com', {
+                      await fetch('https://formsubmit.co/ajax/jsko6625@gmail.com', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                         body: JSON.stringify({
@@ -588,7 +588,7 @@ const App = () => {
                           email: contactForm.email,
                           message: contactForm.message,
                           _subject: `[XYL 문의] ${contactForm.name}님의 프로젝트 문의`,
-                          _cc: 'jsko6625@gmail.com',
+                          _cc: 'jintae.3cpures@gmail.com',
                           _replyto: contactForm.email
                         })
                       });
