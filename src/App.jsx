@@ -583,7 +583,7 @@ const App = () => {
                     const body = encodeURIComponent(
                       `보내는 분: ${contactForm.name}\n이메일: ${contactForm.email}\n\n${contactForm.message}`
                     );
-                    window.location.href = `mailto:jintae.3cpures@gmail.com?subject=${subject}&body=${body}`;
+                    window.location.href = `mailto:jintae.3cpures@gmail.com,jsko6625@gmail.com?subject=${subject}&body=${body}`;
                     setTimeout(() => {
                       setSending(false);
                       setSent(true);
