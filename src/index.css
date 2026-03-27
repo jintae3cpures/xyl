@@ -126,3 +126,6 @@ html {
 .glow-violet {
   box-shadow: 0 0 60px rgba(139, 92, 246, 0.15);
 }
+.glow-emerald {
+  box-shadow: 0 0 60px rgba(16, 185, 129, 0.15);
+}
