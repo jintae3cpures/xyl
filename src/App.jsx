@@ -25,7 +25,6 @@ import {
   Rocket,
   Star,
   TrendingUp,
-  Award,
   Clock,
   Shield
 } from 'lucide-react';
@@ -53,35 +52,6 @@ const Reveal = ({ children, className = '', delay = 0 }) => {
       {children}
     </div>
   );
-};
-
-/* ── Counter Animation ── */
-const Counter = ({ end, suffix = '', duration = 2000 }) => {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const started = useRef(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !started.current) {
-        started.current = true;
-        const start = performance.now();
-        const animate = (now) => {
-          const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          setCount(Math.floor(eased * end));
-          if (progress < 1) requestAnimationFrame(animate);
-        };
-        requestAnimationFrame(animate);
-      }
-    }, { threshold: 0.5 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [end, duration]);
-
-  return <span ref={ref}>{count}{suffix}</span>;
 };
 
 /* ── Main App ── */
@@ -155,11 +125,6 @@ const App = () => {
       status: "진행중",
       gradient: "from-amber-500 to-orange-500"
     }
-  ];
-
-  const stats = [
-    { number: 98, suffix: "%", label: "고객 만족도" },
-    { number: 7, suffix: "건", label: "특허 보유" },
   ];
 
   const marqueeItems = [
@@ -317,13 +282,6 @@ const App = () => {
                   </div>
                 </div>
 
-                {/* Floating tech badge */}
-                <div className="absolute -bottom-3 -left-3 glass border border-white/50 rounded-2xl px-4 py-3 shadow-lg animate-float">
-                  <div className="flex items-center gap-2">
-                    <Award size={14} className="text-blue-600" />
-                    <p className="text-xs font-bold text-gray-700">특허 7건 보유</p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -342,21 +300,6 @@ const App = () => {
         </div>
       </section>
 
-      {/* ── Stats Section ── */}
-      <section className="py-16">
-        <div className="max-w-3xl mx-auto px-6">
-          <div className="grid grid-cols-2 gap-8">
-            {stats.map((stat, i) => (
-              <Reveal key={i} delay={i} className="text-center">
-                <p className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent mb-2">
-                  <Counter end={stat.number} suffix={stat.suffix} />
-                </p>
-                <p className="text-sm text-gray-400 font-medium">{stat.label}</p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── Main Services Section ── */}
       <section id="services" className="py-24 bg-gray-50">
