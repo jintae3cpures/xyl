@@ -74,14 +74,6 @@ const App = () => {
         url: "https://vocamaster30.vercel.app/student",
         color: "blue"
       },
-      {
-        title: "고객 맞춤 프로젝트",
-        category: "비즈니스 웹사이트",
-        description: "학원, 기업, 쇼핑몰 등 고객 요구에 맞춘 반응형 웹사이트를 기획부터 배포까지 원스톱으로 제작합니다.",
-        tags: ["Next.js", "반응형", "SEO", "맞춤 디자인"],
-        url: null,
-        color: "emerald"
-      }
     ],
     ai: [
       {
