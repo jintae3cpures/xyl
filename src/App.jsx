@@ -72,7 +72,7 @@ const App = () => {
       badge: "집중 사업",
       description: "중·고등학교 내신 영어 지문을 AI가 분석하여 어법, 어휘, 빈칸추론, 순서배열 등 다양한 유형의 변형 문제를 자동 생성합니다. 교사의 출제 시간을 획기적으로 단축하고, 학생에게는 무한한 연습 기회를 제공합니다.",
       icon: <FileText className="w-8 h-8" />,
-      tags: ["문제 자동 생성", "내신 대비", "어법·어휘 변형", "GPT 기반"],
+      tags: ["문제 자동 생성", "내신 대비", "어법·어휘 변형", "Claude 기반"],
       gradient: "from-blue-600 to-violet-600",
       lightBg: "bg-blue-50",
       lightText: "text-blue-600",
@@ -129,7 +129,7 @@ const App = () => {
 
   const marqueeItems = [
     "React", "Next.js", "TypeScript", "Tailwind CSS", "Node.js", "Python",
-    "GPT API", "Vercel", "Supabase", "Figma", "AWS", "Docker"
+    "Claude API", "Vercel", "Supabase", "Figma", "AWS", "Docker"
   ];
 
   return (
@@ -247,7 +247,7 @@ const App = () => {
                     </div>
                   </div>
                   <div className="flex gap-2 flex-wrap">
-                    {["문제 자동 생성", "어법 변형", "GPT 기반"].map(tag => (
+                    {["문제 자동 생성", "어법 변형", "Claude 기반"].map(tag => (
                       <span key={tag} className="text-[11px] bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full font-medium">{tag}</span>
                     ))}
                   </div>
@@ -453,7 +453,7 @@ const App = () => {
 
               <div className="space-y-4">
                 {[
-                  "GPT 기반 영어 시험 문제 자동 변형 시스템",
+                  "Claude 기반 영어 시험 문제 자동 변형 시스템",
                   "반응형 맞춤형 웹사이트 기획·디자인·개발",
                   "교육 기관 및 학원 대상 B2B 솔루션",
                   "빠른 커뮤니케이션과 안정적인 유지보수"
@@ -486,7 +486,7 @@ const App = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { name: "React / Next.js", desc: "프론트엔드 개발", emoji: "⚛️", color: "hover:border-cyan-300 hover:bg-cyan-50" },
-              { name: "GPT API", desc: "AI 문제 생성 엔진", emoji: "🤖", color: "hover:border-blue-300 hover:bg-blue-50" },
+              { name: "Claude API", desc: "AI 문제 생성 엔진", emoji: "🤖", color: "hover:border-blue-300 hover:bg-blue-50" },
               { name: "Node.js", desc: "백엔드 서비스", emoji: "🟢", color: "hover:border-green-300 hover:bg-green-50" },
               { name: "TypeScript", desc: "타입 안전 개발", emoji: "💙", color: "hover:border-blue-300 hover:bg-blue-50" },
               { name: "Tailwind CSS", desc: "UI 스타일링", emoji: "🎨", color: "hover:border-violet-300 hover:bg-violet-50" },
