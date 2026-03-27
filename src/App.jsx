@@ -62,6 +62,38 @@ const App = () => {
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [showPortfolio, setShowPortfolio] = useState(null); // 'web' | 'ai' | null
+
+  const portfolioItems = {
+    web: [
+      {
+        title: "VocaMaster 30",
+        category: "교육 플랫폼",
+        description: "중·고등학교 영어 단어 학습 플랫폼. 30일 완성 커리큘럼, 퀴즈, 학습 진도 관리 기능을 갖춘 학생용 웹 서비스.",
+        tags: ["React", "Supabase", "Tailwind CSS", "Vercel"],
+        url: "https://vocamaster30.vercel.app/student",
+        color: "blue"
+      },
+      {
+        title: "고객 맞춤 프로젝트",
+        category: "비즈니스 웹사이트",
+        description: "학원, 기업, 쇼핑몰 등 고객 요구에 맞춘 반응형 웹사이트를 기획부터 배포까지 원스톱으로 제작합니다.",
+        tags: ["Next.js", "반응형", "SEO", "맞춤 디자인"],
+        url: null,
+        color: "emerald"
+      }
+    ],
+    ai: [
+      {
+        title: "AI Exam Transformer",
+        category: "AI 교육 솔루션",
+        description: "내신 영어 지문을 AI가 분석하여 어법, 어휘, 빈칸추론, 순서배열 등 다양한 유형의 변형 문제를 자동 생성하는 시스템.",
+        tags: ["Claude API", "NLP", "문제 자동 생성"],
+        url: null,
+        color: "violet"
+      }
+    ]
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -363,7 +395,10 @@ const App = () => {
                       ))}
                     </div>
 
-                    <button className={`inline-flex items-center gap-2 ${service.lightText} font-semibold hover:opacity-70 transition cursor-pointer group/btn`}>
+                    <button
+                      onClick={() => setShowPortfolio(i === 0 ? 'ai' : 'web')}
+                      className={`inline-flex items-center gap-2 ${service.lightText} font-semibold hover:opacity-70 transition cursor-pointer group/btn`}
+                    >
                       자세히 알아보기
                       <ArrowUpRight size={18} className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                     </button>
@@ -538,6 +573,98 @@ const App = () => {
           </div>
         </Reveal>
       </section>
+
+      {/* ── Portfolio Modal ── */}
+      {showPortfolio && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={() => setShowPortfolio(null)}>
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+          <div
+            className="relative bg-white rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-y-auto p-8 shadow-2xl animate-scale-in"
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowPortfolio(null)}
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition cursor-pointer text-gray-400 hover:text-gray-600"
+            >
+              <X size={20} />
+            </button>
+
+            <div className="mb-8">
+              <p className="text-xs font-bold tracking-widest text-blue-600 uppercase mb-2">Portfolio</p>
+              <h3 className="text-2xl font-bold">
+                {showPortfolio === 'web' ? '웹 개발 포트폴리오' : 'AI 솔루션 포트폴리오'}
+              </h3>
+              <p className="text-sm text-gray-400 mt-1">
+                {showPortfolio === 'web' ? '제작한 웹사이트 프로젝트를 확인해보세요.' : 'AI 기반 솔루션 프로젝트를 확인해보세요.'}
+              </p>
+            </div>
+
+            <div className="space-y-5">
+              {portfolioItems[showPortfolio].map((item, i) => (
+                <div
+                  key={i}
+                  className={`border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 ${item.url ? 'cursor-pointer' : ''}`}
+                  onClick={() => item.url && window.open(item.url, '_blank')}
+                >
+                  {/* Color bar */}
+                  <div className={`h-2 bg-gradient-to-r ${
+                    item.color === 'blue' ? 'from-blue-500 to-cyan-400' :
+                    item.color === 'emerald' ? 'from-emerald-500 to-teal-400' :
+                    'from-violet-500 to-purple-400'
+                  }`} />
+
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 bg-gray-50 px-2 py-1 rounded-full">
+                          {item.category}
+                        </span>
+                        <h4 className="text-lg font-bold mt-2">{item.title}</h4>
+                      </div>
+                      {item.url && (
+                        <div className="w-9 h-9 bg-gray-50 rounded-xl flex items-center justify-center text-gray-400 hover:bg-blue-50 hover:text-blue-600 transition shrink-0">
+                          <ExternalLink size={16} />
+                        </div>
+                      )}
+                    </div>
+
+                    <p className="text-sm text-gray-500 leading-relaxed mb-4">{item.description}</p>
+
+                    <div className="flex flex-wrap gap-2">
+                      {item.tags.map(tag => (
+                        <span key={tag} className="text-[11px] font-medium bg-gray-50 text-gray-500 px-2.5 py-1 rounded-full">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {item.url && (
+                      <div className="mt-4 pt-4 border-t border-gray-50 flex items-center gap-2 text-sm font-semibold text-blue-600">
+                        <Globe size={14} />
+                        <span>사이트 방문하기</span>
+                        <ArrowUpRight size={14} />
+                      </div>
+                    )}
+
+                    {!item.url && (
+                      <div className="mt-4 pt-4 border-t border-gray-50">
+                        <button
+                          onClick={e => { e.stopPropagation(); setShowPortfolio(null); setShowContact(true); setSent(false); }}
+                          className="flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:opacity-70 transition cursor-pointer"
+                        >
+                          <Mail size={14} />
+                          <span>프로젝트 문의하기</span>
+                          <ArrowRight size={14} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Contact Modal ── */}
       {showContact && (
