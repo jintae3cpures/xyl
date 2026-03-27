@@ -58,6 +58,10 @@ const Reveal = ({ children, className = '', delay = 0 }) => {
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showContact, setShowContact] = useState(false);
+  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -152,7 +156,7 @@ const App = () => {
             <a href="#tech" className="hover:text-gray-900 transition-colors">기술</a>
             <a href="#contact" className="hover:text-gray-900 transition-colors">문의</a>
             <button
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => { setShowContact(true); setSent(false); }}
               className="bg-gray-900 hover:bg-blue-600 text-white px-5 py-2.5 rounded-full transition-all font-semibold text-sm cursor-pointer"
             >
               문의하기
@@ -523,17 +527,117 @@ const App = () => {
               AI 시험 문제 변형 시스템이 필요하시거나,
               맞춤형 웹사이트 제작이 필요하시다면 편하게 연락주세요.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center relative z-10">
-              <button className="bg-white text-blue-700 px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-transform cursor-pointer shadow-lg">
+            <div className="relative z-10">
+              <button
+                onClick={() => { setShowContact(true); setSent(false); }}
+                className="bg-white text-blue-700 px-10 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-transform cursor-pointer shadow-lg"
+              >
                 프로젝트 문의하기
-              </button>
-              <button className="border-2 border-white/30 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/10 transition-all cursor-pointer">
-                회사 소개서 받기
               </button>
             </div>
           </div>
         </Reveal>
       </section>
+
+      {/* ── Contact Modal ── */}
+      {showContact && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={() => setShowContact(false)}>
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+          <div
+            className="relative bg-white rounded-3xl w-full max-w-md p-8 shadow-2xl animate-scale-in"
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowContact(false)}
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition cursor-pointer text-gray-400 hover:text-gray-600"
+            >
+              <X size={20} />
+            </button>
+
+            {sent ? (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle2 size={32} className="text-emerald-600" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">문의가 전송되었습니다</h3>
+                <p className="text-gray-400 text-sm">빠른 시일 내에 답변 드리겠습니다.</p>
+                <button
+                  onClick={() => setShowContact(false)}
+                  className="mt-6 bg-gray-900 text-white px-6 py-3 rounded-xl font-semibold text-sm cursor-pointer hover:bg-blue-600 transition-colors"
+                >
+                  닫기
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold mb-1">프로젝트 문의</h3>
+                  <p className="text-sm text-gray-400">내용을 작성해주시면 메일로 답변 드립니다.</p>
+                </div>
+
+                <form
+                  onSubmit={e => {
+                    e.preventDefault();
+                    setSending(true);
+                    const subject = encodeURIComponent(`[XYL 문의] ${contactForm.name}님의 프로젝트 문의`);
+                    const body = encodeURIComponent(
+                      `보내는 분: ${contactForm.name}\n이메일: ${contactForm.email}\n\n${contactForm.message}`
+                    );
+                    window.location.href = `mailto:jintae.3cpures@gmail.com?subject=${subject}&body=${body}`;
+                    setTimeout(() => {
+                      setSending(false);
+                      setSent(true);
+                      setContactForm({ name: '', email: '', message: '' });
+                    }, 500);
+                  }}
+                  className="space-y-4"
+                >
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">이름 / 회사명</label>
+                    <input
+                      type="text"
+                      required
+                      value={contactForm.name}
+                      onChange={e => setContactForm(f => ({ ...f, name: e.target.value }))}
+                      placeholder="홍길동 / ABC 학원"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">이메일</label>
+                    <input
+                      type="email"
+                      required
+                      value={contactForm.email}
+                      onChange={e => setContactForm(f => ({ ...f, email: e.target.value }))}
+                      placeholder="you@example.com"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">문의 내용</label>
+                    <textarea
+                      required
+                      rows={4}
+                      value={contactForm.message}
+                      onChange={e => setContactForm(f => ({ ...f, message: e.target.value }))}
+                      placeholder="프로젝트에 대해 간단히 설명해주세요..."
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition resize-none"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={sending}
+                    className="w-full bg-gray-900 text-white py-3.5 rounded-xl font-semibold text-sm hover:bg-blue-600 transition-colors cursor-pointer disabled:opacity-50"
+                  >
+                    {sending ? '전송 중...' : '문의 보내기'}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* ── Footer ── */}
       <footer className="border-t border-gray-100 py-16 bg-white">
