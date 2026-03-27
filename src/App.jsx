@@ -576,19 +576,29 @@ const App = () => {
                 </div>
 
                 <form
-                  onSubmit={e => {
+                  onSubmit={async e => {
                     e.preventDefault();
                     setSending(true);
-                    const subject = encodeURIComponent(`[XYL 문의] ${contactForm.name}님의 프로젝트 문의`);
-                    const body = encodeURIComponent(
-                      `보내는 분: ${contactForm.name}\n이메일: ${contactForm.email}\n\n${contactForm.message}`
-                    );
-                    window.location.href = `mailto:jintae.3cpures@gmail.com,jsko6625@gmail.com?subject=${subject}&body=${body}`;
-                    setTimeout(() => {
-                      setSending(false);
+                    try {
+                      await fetch('https://formsubmit.co/ajax/jintae.3cpures@gmail.com', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                        body: JSON.stringify({
+                          name: contactForm.name,
+                          email: contactForm.email,
+                          message: contactForm.message,
+                          _subject: `[XYL 문의] ${contactForm.name}님의 프로젝트 문의`,
+                          _cc: 'jsko6625@gmail.com',
+                          _replyto: contactForm.email
+                        })
+                      });
                       setSent(true);
                       setContactForm({ name: '', email: '', message: '' });
-                    }, 500);
+                    } catch {
+                      alert('전송에 실패했습니다. 잠시 후 다시 시도해주세요.');
+                    } finally {
+                      setSending(false);
+                    }
                   }}
                   className="space-y-4"
                 >
