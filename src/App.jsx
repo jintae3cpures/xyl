@@ -377,7 +377,7 @@ const App = () => {
                 <Logo />
                 <span className="text-2xl font-semibold tracking-[0.2em] text-gilded">XYL</span>
               </div>
-              <p className="max-w-md leading-relaxed text-lg text-sage-700">
+              <p className="max-w-md leading-relaxed text-lg text-sage-700 break-keep">
                 XYL은 AI, 영어 교육, 임베디드 시스템의 정교한 융합을 통해 인류의 가능성을 확장하는 혁신 기술 기업입니다.
               </p>
               <div className="flex gap-3 mt-7">
