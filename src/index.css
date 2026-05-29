@@ -2,28 +2,61 @@
 
 @theme {
   --font-sans: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-serif: 'Cormorant Garamond', 'Pretendard', Georgia, 'Times New Roman', serif;
+
+  /* Buly 1803 Parfumerie Palette */
+  --color-sage-50: #f4f6ee;
+  --color-sage-100: #e8ecdb;
+  --color-sage-200: #d6dec2;
+  --color-sage-300: #c2cda6;
+  --color-sage-400: #aab78a;
+  --color-sage-500: #8d9c6b;
+  --color-sage-600: #6f7d52;
+  --color-sage-700: #566141;
+  --color-sage-800: #3a4230;
+  --color-sage-900: #262c20;
+
+  --color-cream: #f4f1e6;
+  --color-ivory: #faf8f0;
+
+  --color-brass-300: #d8bd84;
+  --color-brass-400: #c9a961;
+  --color-brass-500: #b08d4a;
+  --color-brass-600: #8f6f37;
+  --color-brass-700: #6f5526;
+
+  --color-burgundy-400: #a8493a;
+  --color-burgundy-500: #8b3a2d;
+  --color-burgundy-600: #732e23;
+
+  --color-ink: #2e3527;
 }
 
 ::selection {
-  background-color: rgba(59, 130, 246, 0.15);
+  background-color: rgba(176, 141, 74, 0.25);
+  color: #2e3527;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
+body {
+  font-family: var(--font-serif);
+}
+
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #f8fafc;
+  background: #e8ecdb;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
+  background: #b08d4a;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #8f6f37;
 }
 
 /* Animations */
@@ -128,4 +161,68 @@ html {
 }
 .glow-emerald {
   box-shadow: 0 0 60px rgba(16, 185, 129, 0.15);
+}
+
+/* ── Buly 1803 Parfumerie utilities ── */
+
+/* Antique brass / gold gilded text */
+.text-gilded {
+  background: linear-gradient(135deg, #d8bd84 0%, #b08d4a 35%, #6f5526 55%, #c9a961 80%, #8f6f37 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Slow shimmer across gilded surfaces */
+@keyframes gildShimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.gild-shimmer {
+  background-size: 200% auto;
+  animation: gildShimmer 6s linear infinite;
+}
+
+/* Thin ornamental rule with a central diamond, like the bottle label */
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: #b08d4a;
+}
+.ornament::before,
+.ornament::after {
+  content: '';
+  height: 1px;
+  width: 3rem;
+  background: linear-gradient(to var(--dir, right), transparent, currentColor);
+}
+.ornament::after { --dir: left; }
+
+/* Fine letterpress-style heading tracking */
+.tracking-label {
+  letter-spacing: 0.32em;
+}
+
+/* Subtle aged-paper grain overlay */
+.paper-grain {
+  background-image: radial-gradient(rgba(110, 85, 38, 0.04) 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+/* Engraved / embossed soft shadow for cards */
+.card-emboss {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.5) inset,
+    0 18px 40px -22px rgba(46, 53, 39, 0.45);
+}
+
+/* Gentle breathing for the wax-seal medallions */
+@keyframes sealBreath {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+.animate-seal {
+  animation: sealBreath 5s ease-in-out infinite;
 }
